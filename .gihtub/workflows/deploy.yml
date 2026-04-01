@@ -1,0 +1,34 @@
+name: Deploy Portfolio to Render
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node (optional, since you have package.json)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 3. Install dependencies (optional)
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Build step (skip if not needed)
+      - name: Build project
+        run: echo "No build step needed"
+
+      # 5. Trigger Render Deploy
+      - name: Deploy to Render
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
